@@ -1,0 +1,8 @@
+#!/bin/bash
+for i in $(find ./$1 -type f); do
+        BNAME=$(basename $i)
+        for j in $(find ./$2 -name "$BNAME"); do
+                cp -v $i $j
+        done
+done
+

@@ -1,0 +1,54 @@
+#! /bin/bash
+
+echo "===================================================";
+echo "=            Automated Build Script";             =";
+echo "===================================================";
+
+# get the ROM
+# print a menu to allow selection of specific ROM from a list
+# ensure sources are fully synced and modify this to reflect whatever
+# ROM source is being used
+
+# get the device to build
+echo -n "Device (what you would type for lunch): "
+read DEVICE
+
+# ask to clean
+while [ "$CLEAN" != "Y" ] && [ "$CLEAN" != "N" ] && [ "$CLEAN" != "y" ] && [ "$CLEAN" != "n" ]; do
+    echo "Run make clean (y/n)?: ";
+
+    read CLEAN
+
+    if [ "$CLEAN" != "Y" ] && [ "$CLEAN" != "N" ] && [ "$CLEAN" != "y" ] && [ "$CLEAN" != "n" ]; then
+        echo "Who taught you how to read?";
+    fi
+done
+
+# ask to sync
+while [ "$SYNC" != "Y" ] && [ "$SYNC" != "N" ] && [ "$SYNC" != "y" ] && [ "$SYNC" != "n" ]; do
+    echo "Sync the repo (y/n)?: ";
+
+    read SYNC
+
+    if [ "$SYNC" != "Y" ] && [ "$SYNC" != "N" ] && [ "$SYNC" != "y" ] && [ "$SYNC" != "n" ]; then
+        echo "Who taught you how to read?";
+    fi
+done
+
+# initialize the build environment
+source build/envsetup.sh
+
+# clean
+case $CLEAN in
+    Y | y)
+        make clean && make clobber && rm -rf out
+esac
+
+# sync
+case $SYNC in
+    Y | y)
+        repo sync
+esac
+
+# build
+make bacon

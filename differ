@@ -1,0 +1,1 @@
+for tag in $(git tag | grep 8974); do n=$(git diff HEAD $tag | wc -l); echo "$n $tag" >> diffs; done && sort -rn diffs
